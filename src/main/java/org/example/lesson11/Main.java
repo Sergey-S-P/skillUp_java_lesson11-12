@@ -16,12 +16,10 @@ public class Main {
     public static void main(String[] arg) {
 
         String fileName = getTextFromConsole("Please enter file name: ");
-
         File myFile = createFile(fileName);
+        writeToFile(myFile, numbersFibonachi(0,1));
 
-        writeToFile(myFile, numbersFibonachi(""));
     }
-
 
     private static String getTextFromConsole(String text) {
         System.out.println(text);
@@ -47,23 +45,20 @@ public class Main {
         return null;
     }
 
-    private static String numbersFibonachi (String sF) {
-        int f1 = 0;
-        int f2 = 1;
-        int f = 0;
-        for (int i = 0; i < 20; i++) {
-            f = f2 + f1;
-            f1 = f2;
-            f2 = f;
-            sF += Integer.toString(f) + ", ";
+    static String strFib = "0, ";
+    private static String numbersFibonachi (int a, int b) {
+        int res = a + b;
+
+        if (res < 100) {
+            strFib += Integer.toString(res) + ", ";
+            numbersFibonachi(b, res);
         }
-        return sF;
+        return strFib;
     }
 
-
-    private static void writeToFile (File file, String sF){
+    private static void writeToFile (File file, String strFib){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(sF);
+            writer.write(strFib);
         } catch (IOException e) {
             e.printStackTrace();
         }
